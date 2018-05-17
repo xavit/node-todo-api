@@ -4,22 +4,10 @@ const {ObjectID} = require('mongodb');
 
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
+const {todos, populateTodos, users, populateUsers} = require('./seed/seed');
 
-const todos = [{
-  _id: new ObjectID,
-  text: 'First test todo'
-},{
-  _id: new ObjectID,
-  text: 'Second test todo',
-  completed: true,
-  completedAt: 333
-}];
-
-beforeEach( (done) => {
-  Todo.remove({}).then( () => {
-    return Todo.insertMany(todos);
-  }).then( () => done());
-});// Esto borra el contenido de la Tabla "Todos" e inserta 2 elementos "Todos"
+beforeEach(populateUsers);
+beforeEach(populateTodos);// Esto borra el contenido de la Tabla "Todos" e inserta 2 elementos "Todos"
 
 describe('POST /todos', () => {
   it('should create a new todo', (done) => {
